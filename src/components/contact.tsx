@@ -1,9 +1,16 @@
 "use client";
 
-import React, { useState } from 'react'
+import React, { useRef, useState } from 'react'
+import emailjs from '@emailjs/browser'
 import { SectionHeading } from './common/sectionHeading'
 import { Reveal } from './common/reveal'
 import { Socials } from './common/socials'
+
+const EMAILJS_SERVICE_ID = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID
+const EMAILJS_TEMPLATE_ID = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID
+const EMAILJS_PUBLIC_KEY = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY
+
+type Status = 'idle' | 'sending' | 'success' | 'error'
 
 const contactChannels = [
     {
@@ -27,23 +34,33 @@ const contactChannels = [
 ]
 
 const ContactComponent = () => {
-    const [sent, setSent] = useState(false)
+    const formRef = useRef<HTMLFormElement>(null)
+    const [status, setStatus] = useState<Status>('idle')
 
-    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
         const form = e.currentTarget
-        const data = new FormData(form)
-        const name = String(data.get('name') || '')
-        const email = String(data.get('email') || '')
-        const message = String(data.get('message') || '')
 
-        // Open the user's mail client pre-filled — a dependency-free "send"
-        const subject = encodeURIComponent(`Portfolio enquiry from ${name}`)
-        const body = encodeURIComponent(`${message}\n\n— ${name} (${email})`)
-        window.location.href = `mailto:nauman.raees72@gmail.com?subject=${subject}&body=${body}`
+        if (!EMAILJS_SERVICE_ID || !EMAILJS_TEMPLATE_ID || !EMAILJS_PUBLIC_KEY) {
+            console.error('EmailJS environment variables are not configured.')
+            setStatus('error')
+            return
+        }
 
-        setSent(true)
-        form.reset()
+        setStatus('sending')
+        try {
+            await emailjs.sendForm(
+                EMAILJS_SERVICE_ID,
+                EMAILJS_TEMPLATE_ID,
+                form,
+                { publicKey: EMAILJS_PUBLIC_KEY },
+            )
+            setStatus('success')
+            form.reset()
+        } catch (err) {
+            console.error('EmailJS send failed:', err)
+            setStatus('error')
+        }
     }
 
     return (
@@ -102,6 +119,7 @@ const ContactComponent = () => {
                     {/* Right: form */}
                     <Reveal delay={120}>
                         <form
+                            ref={formRef}
                             onSubmit={handleSubmit}
                             className="rounded-3xl border border-ink/5 bg-white p-6 shadow-lg sm:p-8"
                         >
@@ -149,15 +167,37 @@ const ContactComponent = () => {
 
                             <button
                                 type="submit"
-                                className="mt-6 inline-flex w-full items-center justify-center gap-2 rounded-full bg-accent px-7 py-3.5 text-sm font-semibold text-white shadow-lg shadow-accent/25 transition-all duration-300 hover:-translate-y-0.5 hover:bg-accent-dark hover:shadow-xl"
+                                disabled={status === 'sending'}
+                                className="mt-6 inline-flex w-full items-center justify-center gap-2 rounded-full bg-accent px-7 py-3.5 text-sm font-semibold text-white shadow-lg shadow-accent/25 transition-all duration-300 hover:-translate-y-0.5 hover:bg-accent-dark hover:shadow-xl disabled:cursor-not-allowed disabled:opacity-60 disabled:hover:translate-y-0"
                             >
-                                Send Message
-                                <span aria-hidden>→</span>
+                                {status === 'sending' ? (
+                                    <>
+                                        <svg className="h-4 w-4 animate-spin" viewBox="0 0 24 24" fill="none">
+                                            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                                            <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 0 1 8-8V0C5.4 0 0 5.4 0 12h4z" />
+                                        </svg>
+                                        Sending…
+                                    </>
+                                ) : (
+                                    <>
+                                        Send Message
+                                        <span aria-hidden>→</span>
+                                    </>
+                                )}
                             </button>
 
-                            {sent && (
+                            {status === 'success' && (
                                 <p className="mt-4 rounded-xl bg-green-50 px-4 py-3 text-center text-sm font-medium text-green-700">
-                                    Thanks! Your mail client should be opening — I&apos;ll get back to you soon.
+                                    Thanks! Your message has been sent — I&apos;ll get back to you soon.
+                                </p>
+                            )}
+                            {status === 'error' && (
+                                <p className="mt-4 rounded-xl bg-red-50 px-4 py-3 text-center text-sm font-medium text-red-700">
+                                    Something went wrong. Please email me directly at{' '}
+                                    <a href="mailto:nauman.raees72@gmail.com" className="underline">
+                                        nauman.raees72@gmail.com
+                                    </a>
+                                    .
                                 </p>
                             )}
                         </form>
