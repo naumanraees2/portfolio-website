@@ -9,14 +9,13 @@ import { Socials } from './common/socials'
 const EMAILJS_SERVICE_ID = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID
 const EMAILJS_TEMPLATE_ID = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID
 const EMAILJS_PUBLIC_KEY = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY
-
 type Status = 'idle' | 'sending' | 'success' | 'error'
 
 const contactChannels = [
     {
         label: 'Email',
         value: 'nauman.raees72@gmail.com',
-        href: 'mailto:nauman.raees72@gmail.com',
+        href: 'mailto:naumanraees72@gmail.com',
         icon: '📧',
     },
     {
