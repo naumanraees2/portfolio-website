@@ -1,5 +1,5 @@
 import Image from 'next/image'
-import aboutImage from '@/src/assets/hero.jpg'
+import aboutImage from '@/src/assets/image_3.gif'
 import { SectionHeading } from './common/sectionHeading'
 import { Reveal } from './common/reveal'
 import { ButtonComponent } from './common/hireMeButton'
@@ -113,8 +113,7 @@ const AboutComponent = () => {
                                     delay={i * 100}
                                     className="group rounded-2xl border border-ink/5 bg-white p-5 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-accent/30 hover:shadow-xl"
                                 >
-                                    <span className="text-2xl">{h.icon}</span>
-                                    <h3 className="mt-3 font-bold text-ink">{h.title}</h3>
+                                    <h3 className="font-bold text-ink"><span className="text-2xl">{h.icon} &nbsp;</span> {h.title}</h3>
                                     <p className="mt-1 text-sm leading-relaxed text-ink-soft">
                                         {h.description}
                                     </p>

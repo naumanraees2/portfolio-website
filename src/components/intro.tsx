@@ -1,5 +1,5 @@
 import Image from 'next/image'
-import heroImage from "@/src/assets/hero_2.png";
+import heroImage from "@/src/assets/hero_1.png";
 import { ButtonComponent } from './common/hireMeButton';
 import { Socials } from './common/socials';
 

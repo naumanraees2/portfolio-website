@@ -42,13 +42,18 @@ const educationData = [
         degree: "B.S. in Software Engineering",
         institution: "National University of Modern Languages",
     },
+    {
+        year: "2026 — present",
+        degree: "M.S in Artificial Intelligence",
+        institution: "FAST National University of Computer and Emerging Sciences",
+    },
 ]
 
-const certifications = [
-    "Meta Backend Developer Certificate",
-    "MongoDB Certified Developer",
-    "AWS Cloud Practitioner",
-]
+// const certifications = [
+//     "Meta Backend Developer Certificate",
+//     "MongoDB Certified Developer",
+//     "AWS Cloud Practitioner",
+// ]
 
 const ExperienceComponent = () => {
     return (
@@ -123,7 +128,7 @@ const ExperienceComponent = () => {
                             ))}
                         </Reveal>
 
-                        <Reveal delay={120} className="rounded-2xl border border-ink/5 bg-white p-6 shadow-sm">
+                        {/* <Reveal delay={120} className="rounded-2xl border border-ink/5 bg-white p-6 shadow-sm">
                             <h3 className="flex items-center gap-2 text-lg font-bold text-ink">
                                 <span className="h-6 w-1 rounded-full bg-accent" />
                                 Certifications
@@ -136,7 +141,7 @@ const ExperienceComponent = () => {
                                     </li>
                                 ))}
                             </ul>
-                        </Reveal>
+                        </Reveal> */}
 
                         <Reveal delay={240} className="rounded-2xl bg-gradient-to-br from-ink to-accent-2 p-6 text-white shadow-lg">
                             <h3 className="text-lg font-bold">Languages</h3>
