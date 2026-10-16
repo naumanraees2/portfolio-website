@@ -44,7 +44,7 @@ const educationData = [
     },
     {
         year: "2026 — present",
-        degree: "M.S in Artificial Intelligence",
+        degree: "M.S. in Artificial Intelligence",
         institution: "FAST National University of Computer and Emerging Sciences",
     },
 ]
