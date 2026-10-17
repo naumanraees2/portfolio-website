@@ -4,7 +4,7 @@ import { ButtonComponent } from './common/hireMeButton';
 import { Socials } from './common/socials';
 
 const stats = [
-    { value: '5+', label: 'Years Experience' },
+    { value: '7+', label: 'Years Experience' },
     { value: '30+', label: 'Projects Shipped' },
     { value: '15+', label: 'Happy Clients' },
 ]
